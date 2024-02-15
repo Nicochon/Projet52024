@@ -18,10 +18,21 @@ class AdminController {
         $articleManager = new ArticleManager();
         $articles = $articleManager->getAllArticles();
 
+        //On récupère les commentaires
+        $CommentManager = new CommentManager();
+        $articlesInfo = [];
+        foreach ($articles as $article){
+            $articlesInfo[] = [
+                'idArticle' => $article->getId(),
+                'commentsQty' => sizeof($CommentManager->getAllCommentsByArticleId($article->getId()))
+            ];
+        }
+
         // On affiche la page d'administration.
         $view = new View("Administration");
         $view->render("admin", [
-            'articles' => $articles
+            'articles' => $articles,
+            'articlesInfo' => $articlesInfo
         ]);
     }
 

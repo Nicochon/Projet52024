@@ -74,6 +74,16 @@ try {
             $adminController->deleteArticle();
             break;
 
+        case 'ascending':
+            $adminController = new AdminController();
+            $adminController->ascendingOrder();
+            break;
+
+        case 'descending':
+            $adminController = new AdminController();
+            var_dump('décroissant');
+            die;
+            break;
         default:
             throw new Exception("La page demandée n'existe pas.");
     }

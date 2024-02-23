@@ -9,30 +9,19 @@ class AdminController {
      * Affiche la page d'administration.
      * @return void
      */
-    public function showAdmin() : void
+    public function showAdmin($articles = null) : void
     {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
 
-        // On récupère les articles.
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
-
-        //On récupère les commentaires
-        $CommentManager = new CommentManager();
-        $articlesInfo = [];
-        foreach ($articles as $article){
-            $articlesInfo[] = [
-                'idArticle' => $article->getId(),
-                'commentsQty' => sizeof($CommentManager->getAllCommentsByArticleId($article->getId()))
-            ];
+        if ($articles === null) {
+            $articles = $this->getArticle();
         }
 
         // On affiche la page d'administration.
         $view = new View("Administration");
         $view->render("admin", [
             'articles' => $articles,
-            'articlesInfo' => $articlesInfo
         ]);
     }
 
@@ -186,5 +175,69 @@ class AdminController {
 
         // On redirige vers la page d'administration.
         Utils::redirect("admin");
+    }
+
+    /**
+     * récuperer les articles
+     */
+    public function getArticle()
+    {
+        $articleManager = new ArticleManager();
+        $CommentManager = new CommentManager();
+
+        $articlesData = $articleManager->getAllArticles();
+        $articles = [];
+        foreach ($articlesData as $articleData){
+            $articles[] = [
+                'idUser' => $articleData->getIdUser(),
+                'idArticle' => $articleData->getId(),
+                'title' => $articleData->getTitle(),
+                'content' => $articleData->getContent(200),
+                'dateCreation' => Utils::convertDateToFrenchFormat($articleData->getDateCreation()),
+                'dateUpdate' => $articleData->getDateUpdate(),
+                'views' => $articleData->getViews(),
+                'commentsQty' => sizeof($CommentManager->getAllCommentsByArticleId($articleData->getId()))
+            ];
+        }
+
+        return $articles;
+    }
+
+    public function ascendingOrder()
+    {
+        $articles = $this->getArticle();
+        if(isset($_GET['action']) && $_GET['action'] === 'ascending') {
+            if (isset($_GET['key'])) {
+                $key = $_GET['key'];
+                if ($key === 'nbComments' || $key === 'nbViews' || $key === 'dateCreation' || $key === 'title') {
+                    usort($articles, [$this, 'compareData']);
+                    $this->showAdmin($articles);
+                }
+            }
+        }
+    }
+
+    public function compareData($a, $b)
+    {
+        switch ($_GET['key']){
+            case 'nbComments':
+                return $a['commentsQty'] - $b['commentsQty'];
+                break;
+            case 'nbViews':
+                return $a['views'] - $b['views'];
+                break;
+            case'dateCreation':
+                return ($a['dateCreation'] > $b['dateCreation']) ? -1 : 1;
+                break;
+            case 'title':
+                return strcmp($a['title'], $b['title']);
+                break;
+        }
+    }
+
+    public function getget($key)
+    {
+        $getget = htmlentities($_GET[$key]);
+        return $getget;
     }
 }

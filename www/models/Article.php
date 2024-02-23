@@ -11,11 +11,10 @@
     private string $content = "";
     private ?DateTime $dateCreation = null;
     private ?DateTime $dateUpdate = null;  
-    private int $viewsArticle;
+    private int $views;
 
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
-		$this->viewsArticle = 1;
 	}
 
 	 /**
@@ -134,13 +133,13 @@
         return $this->dateUpdate;
     }
 
-	public function setViewsArticle(int $viewsArticle)
+	public function setViews(int $viewsArticle)
 	{
-		$this->viewsArticle = $viewsArticle;
+		$this->views = $viewsArticle;
 	}
 
-	public function getViewsArticle()
+	public function getViews()
 	{
-		return $this->viewsArticle;
+		return $this->views;
 	}
  }

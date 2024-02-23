@@ -1,95 +1,70 @@
-
-/*#containerAdmin thead{*/
-/*    background-color: #2c5e77;*/
-/*    color: #fff;*/
-/*}*/
-
-/*#containerAdmin tbody {*/
-/*    background-color: #e4f0f5;*/
-/*}*/
-
-/*#containerAdmin table {*/
-/*    border-collapse: collapse;*/
-/*    border: 2px solid rgb(140 140 140);*/
-/*    font-family: sans-serif;*/
-/*    font-size: 0.8rem;*/
-/*    letter-spacing: 1px;*/
-/*}*/
-
-/*#containerAdmin caption {*/
-/*    caption-side: bottom;*/
-/*    padding: 10px;*/
-/*}*/
-
-/*#containerAdmin th,td {*/
-/*    border: 1px solid rgb(160 160 160);*/
-/*    padding: 8px 10px;*/
-/*}*/
-
-/*#containerAdmin td {*/
-/*    text-align: center;*/
-/*}*/
-
 #containerAdmin {
-    max-width: 800px;
-    margin: 0 auto;
-
+    width: 1450px;
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: var(--titleColor); /* Couleur du titre */
-}
-
-table {
-    width: 100%;
-    border: 5px solid var(--headerColor);
-    border-collapse: collapse;
-    box-shadow: 20px 20px rgba(0,0,0,.15);
-}
-
-th, td {
+#containerAdmin thead th {
+    background-color: #efe1ba;
     padding: 10px;
-    text-align: left;
+    border: 1px solid #d79922;
     text-align: center;
 }
 
-th {
-    background-color: var(--headerPaleColor); /* Couleur de fond des en-têtes */
-    color: var(--headerColor); /* Couleur du texte des en-têtes */
+#containerAdmin .sortSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
 }
 
-tr:nth-child(even) {
-    background-color: wheat; /* Couleur de fond des lignes paires */
-    color: black;
+#containerAdmin .sortSection .icons {
+    padding: 0 0 10px 15px;
 }
 
-.title {
-    font-weight: bold;
+#containerAdmin .sortSection .icons .icon {
+    height: 10px;
 }
 
-.content {
-    max-width: 400px; /* Limitez la largeur du contenu */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Affichez les points de suspension si le contenu est trop long */
-    white-space: nowrap; /* Empêchez le contenu de se retourner à la ligne */
+#containerAdmin .sortSection .icons .icon svg{
+    width: 20px;
+    height: 20px;
 }
 
-.viewsNumber, .commentNumber, .date {
-    font-style: italic;
+#containerAdmin tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
-.submit {
+#containerAdmin tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+#containerAdmin td {
+    text-align: center;
+    border: 1px solid #efe1ba;
+    padding: 10px;
+}
+
+#containerAdmin tfoot th {
+    background-color: #efe1ba;
+    padding: 10px;
+    border: 1px solid #d79922;
+}
+
+#containerAdmin .submit {
     display: inline-block;
     padding: 8px 16px;
-    background-color: var(--quoteColor); /* Couleur de fond du bouton */
-    color: white; /* Couleur du texte du bouton */
-    text-decoration: none;
+    background-color: #255E33;
     border-radius: 4px;
     transition: background-color 0.3s;
 }
 
-.submit:hover {
-    background-color: var(--commentPaleColor); /* Couleur de fond au survol du bouton */
+#containerAdmin .delete{
+    background-color: #f13c1f;
+}
+
+#containerAdmin .submit:hover {
+    background-color: #1C4726;
+}
+
+#containerAdmin .delete:hover{
+    background-color: #c82333;
 }

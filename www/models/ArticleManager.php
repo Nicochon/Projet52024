@@ -103,7 +103,7 @@ class ArticleManager extends AbstractEntityManager
 	{
 		$sql = "UPDATE article SET views = :views WHERE id = :id";
 		$this->db->query($sql, [
-			'views' => $article->getViewsArticle(),
+			'views' => $article->getViews() + 1,
 			'id' => $article->getId()
 		]);
 	}

@@ -87,4 +87,9 @@ class Utils {
         return $_REQUEST[$variableName] ?? $defaultValue;
     }
 
+    public static function protectGet($string){
+        $stringFinal = htmlspecialchars($string, ENT_QUOTES);
+        return $stringFinal;
+    }
+
 }

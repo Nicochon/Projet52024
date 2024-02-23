@@ -25,6 +25,16 @@ class AdminController {
         ]);
     }
 
+    public function showCommentsAdmin($comments = null) : void
+    {
+        $this->checkIfUserIsConnected();
+
+        $view = new View("Administration");
+        $view->render("commentsAdmin", [
+            'comments' => $comments,
+        ]);
+    }
+
     /**
      * Vérifie que l'utilisateur est connecté.
      * @return void
@@ -178,6 +188,23 @@ class AdminController {
     }
 
     /**
+     * supprimer un article articles
+     */
+    public function deleteComment() : void
+    {
+        $this->checkIfUserIsConnected();
+
+        $id = Utils::request("id", -1);
+
+        // On supprime l'article.
+        $commentManager = new CommentManager();
+        $commentManager->deleteComment($id);
+
+        // On redirige vers la page d'administration.
+        Utils::redirect("admin");
+    }
+
+    /**
      * récuperer les articles
      */
     public function getArticle()
@@ -203,50 +230,63 @@ class AdminController {
         return $articles;
     }
 
+    /**
+     * récuperer les commentaires
+     */
+    public function getComments()
+    {
+        $commentManager = new CommentManager();
+        $commentsData = $commentManager->getAllCommentsByArticleId($_GET['key']);
+        $comments = [];
+        foreach ($commentsData as $commentData){
+
+            $comments[] = [
+                'idComment' => $commentData->getId(),
+                'IdArticle' => $commentData->getIdArticle(),
+                'pseudo' => $commentData->getPseudo(),
+                'content' => $commentData->getContent(),
+                'dateCreation' => Utils::convertDateToFrenchFormat($commentData->getDateCreation()),
+            ];
+        }
+        $this->showCommentsAdmin($comments);
+    }
+
+    /**
+     * récuperer les articles triés
+     */
     public function setData()
     {
         $articles = $this->getArticle();
-        if(isset($_GET['action']) && $_GET['action'] === 'ascending') {
-            if (isset($_GET['key'])) {
-                $key = $_GET['key'];
-                if ($key === 'nbComments' || $key === 'nbViews' || $key === 'dateCreation' || $key === 'title') {
-                    usort($articles, [$this, 'compareData']);
-                    $this->showAdmin($articles);
-                }
-            }
-        } elseif (isset($_GET['action']) && $_GET['action'] === 'descending') {
-            if (isset($_GET['key'])) {
-                $key = $_GET['key'];
-                if ($key === 'nbComments' || $key === 'nbViews' || $key === 'dateCreation' || $key === 'title') {
-                    usort($articles, [$this, 'compareData']);
-                    $articles = array_reverse($articles);
-                    $this->showAdmin($articles);
-                }
+
+        $action = Utils::protectGet($_GET['action']);
+        $typeAction = Utils::protectGet($_GET['sort']);
+
+        if($action === 'sort') {
+            if ($typeAction === 'ascending') {
+                usort($articles, [$this, 'compareData']);
+                $this->showAdmin($articles);
+            } elseif ($typeAction === 'descending'){
+                usort($articles, [$this, 'compareData']);
+                $articles = array_reverse($articles);
+                $this->showAdmin($articles);
             }
         }
     }
 
+    /**
+     * affectue le tri des articles
+     */
     public function compareData($a, $b)
     {
-        switch ($_GET['key']){
+        switch (Utils::protectGet($_GET['data'])){
             case 'nbComments':
                 return $a['commentsQty'] - $b['commentsQty'];
-                break;
             case 'nbViews':
                 return $a['views'] - $b['views'];
-                break;
             case'dateCreation':
                 return ($a['dateCreation'] > $b['dateCreation']) ? -1 : 1;
-                break;
             case 'title':
                 return strcmp($a['title'], $b['title']);
-                break;
         }
-    }
-
-    public function getget($key)
-    {
-        $getget = htmlentities($_GET[$key]);
-        return $getget;
     }
 }

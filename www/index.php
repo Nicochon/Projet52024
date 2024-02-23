@@ -74,14 +74,19 @@ try {
             $adminController->deleteArticle();
             break;
 
-        case 'ascending':
+        case 'sort':
             $adminController = new AdminController();
             $adminController->setData();
             break;
 
-        case 'descending':
+        case 'comments':
             $adminController = new AdminController();
-            $adminController->setData();
+            $adminController->getComments();
+            break;
+
+        case 'deleteComment':
+            $adminController = new AdminController();
+            $adminController->deleteComment();
             break;
 
         default:

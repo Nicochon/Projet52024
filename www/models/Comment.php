@@ -7,11 +7,35 @@
  
 class Comment extends AbstractEntity 
 {
+    private int $idComment;
     private int $idArticle;
     private string $pseudo;
     private string $content;
     private DateTime $dateCreation;
-    
+
+    public function __construct( array $data = [] ) {
+        parent::__construct( $data );
+    }
+
+    /**
+     * Getter pour l'id du commentaire
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->idComment;
+    }
+
+    /**
+     * Setter pour l'id du commentaire.
+     * @param int $idComment
+     * @return void
+     */
+    public function setId(int $idComment): void
+    {
+        $this->idComment = $idComment;
+    }
+
     /**
      * Getter pour l'id de l'article.
      * @return int

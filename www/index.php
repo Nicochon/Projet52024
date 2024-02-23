@@ -76,14 +76,14 @@ try {
 
         case 'ascending':
             $adminController = new AdminController();
-            $adminController->ascendingOrder();
+            $adminController->setData();
             break;
 
         case 'descending':
             $adminController = new AdminController();
-            var_dump('décroissant');
-            die;
+            $adminController->setData();
             break;
+
         default:
             throw new Exception("La page demandée n'existe pas.");
     }

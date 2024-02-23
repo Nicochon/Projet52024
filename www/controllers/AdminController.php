@@ -203,7 +203,7 @@ class AdminController {
         return $articles;
     }
 
-    public function ascendingOrder()
+    public function setData()
     {
         $articles = $this->getArticle();
         if(isset($_GET['action']) && $_GET['action'] === 'ascending') {
@@ -211,6 +211,15 @@ class AdminController {
                 $key = $_GET['key'];
                 if ($key === 'nbComments' || $key === 'nbViews' || $key === 'dateCreation' || $key === 'title') {
                     usort($articles, [$this, 'compareData']);
+                    $this->showAdmin($articles);
+                }
+            }
+        } elseif (isset($_GET['action']) && $_GET['action'] === 'descending') {
+            if (isset($_GET['key'])) {
+                $key = $_GET['key'];
+                if ($key === 'nbComments' || $key === 'nbViews' || $key === 'dateCreation' || $key === 'title') {
+                    usort($articles, [$this, 'compareData']);
+                    $articles = array_reverse($articles);
                     $this->showAdmin($articles);
                 }
             }

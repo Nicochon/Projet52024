@@ -14,6 +14,11 @@ Ce fichier contient notamment les informations de connextion à la base de donn�
 
 Pour vous connecter en partie admin, le login est "Emilie" et le mot de passe est "password" (attention aux majuscules)
 
+## Connectez vous a la base de données:
+
+Renseigner les bonnes informations dans le fichier  www/models/DBManager.php ligne 25
+"$this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASS);"
+
 ## Problèmes courants :
 
 Il est possible que la librairie intl ne soit pas activée sur votre serveur par défaut. Cette librairie sert notamment à traduire les dates en francais. Dans ce cas, vous pouvez soit utiliser l'interface de votre serveur local pour activer l'extention (wamp), soit aller modifier directement le fichier _php.ini_. 
